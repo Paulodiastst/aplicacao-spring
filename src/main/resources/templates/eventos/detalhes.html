@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <!-- Compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <title>Eventos</title>
 </head>
 <body>
-
 	<div th:replace="~{menu :: menu}"></div>
 
 	<div class="container">
@@ -27,13 +27,13 @@
 						</p>
 						<p>
 							<strong>Nome: </strong><span th:text="${evento.nome}">Aniversário
-								de Pedro</span>
+								de José</span>
 						</p>
 						<p>
 							<strong>Local: </strong><span th:text="${evento.local}">Club</span>
 						</p>
 						<p>
-							<strong>Data: </strong><span th:text="${evento.data}">20/06/2022</span>
+							<strong>Data: </strong><span th:text="${evento.data}">25/02/2021</span>
 						</p>
 						<p>
 							<strong>Horário: </strong><span th:text="${evento.horario}">20:00</span>
@@ -47,13 +47,16 @@
 			<div class="col s12">
 				<div class="card">
 					<div class="card-content">
-						<span class="card-title">Adicinar Convidado:</span>
-						<form action="" method="post">
+						<span class="card-title">Adicionar Convidado:</span>
+						<form th:action="@{/eventos/{idEvento}(idEvento=${evento.id})}" method="post">
 							<div>
-								<label>Nome: </label> <input type="text" name="nome">
+								<input type="hidden" name="id" th:value="${convidado.id}" readonly="readonly">
 							</div>
 							<div>
-								<label>RG: </label> <input type="text" name="rg">
+								<label>Nome: </label> <input type="text" name="nome" th:value="${convidado.nome}">
+							</div>
+							<div>
+								<label>RG: </label> <input type="text" name="rg" th:value="${convidado.rg}">
 							</div>
 							<div>
 								<button type="submit" class="btn">Salvar</button>
@@ -64,7 +67,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="col s12">
 				<div class="card">
@@ -76,24 +79,28 @@
 									<th>Id</th>
 									<th>Nome</th>
 									<th>Rg</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="c : ${convidados}">
 									<td th:text="${c.id}">1</td>
-									<td th:text="${c.nome}">Paulo Roberto</td>
-									<td th:text="${c.rg}">123</td>								
+									<td th:text="${c.nome}">Fernando Soares</td>
+									<td th:text="${c.rg}">123</td>
+									<td>
+										<a th:href="@{/eventos/{idEvento}/convidados/{idConvidado}/selecionar(idEvento=${evento.id}, idConvidado=${c.id})}"><i class="material-icons">edit</i></a>
+										<a
+										th:href="@{/eventos/{idEvento}/convidados/{idConvidado}/remover(idEvento=${evento.id}, idConvidado=${c.id})}"><i
+											class="material-icons">delete</i></a>
+									</td>
 								</tr>
 							</tbody>
-						</table>						
+						</table>
 					</div>
 				</div>
 			</div>
 		</div>
 
-
-
 	</div>
-
 </body>
 </html>
